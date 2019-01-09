@@ -5,7 +5,7 @@
 
 #define NEW_SIMD_CODE
 
-#define BIT_LIMIT 120
+#define BIT_LIMIT 129
 
 #include "inc_vendor.cl"
 #include "inc_hash_constants.h"
