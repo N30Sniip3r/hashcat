@@ -131,7 +131,7 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     const u32x r2 = ctx.h[DGST_R2];
     const u32x r3 = ctx.h[DGST_R3];
 
-    if(ctx.h[0] == 0 && ctx.h[1] < 0xc81)
+    if(ctx.h[0] == 0xffffffff && ctx.h[1] > 0xfffff64c)
     {
         const u32 final_hash_pos = digests_offset + 0;
 
