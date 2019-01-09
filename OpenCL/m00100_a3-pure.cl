@@ -131,6 +131,16 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     const u32x r2 = ctx.h[DGST_R2];
     const u32x r3 = ctx.h[DGST_R3];
 
-    COMPARE_S_SIMD (r0, r1, r2, r3);
+    if(ctx.h[0] == 0 && ctx.h[1] < 0xc81)
+    {
+        const u32 final_hash_pos = digests_offset + 0;
+
+        if (atomic_inc (&hashes_shown[final_hash_pos]) == 0)
+        {
+          mark_hash (plains_buf, d_return_buf, salt_pos, digests_cnt, 0, final_hash_pos, gid, il_pos);
+        }
+    }
+
+    //COMPARE_S_SIMD (r0, r1, r2, r3);
   }
 }
