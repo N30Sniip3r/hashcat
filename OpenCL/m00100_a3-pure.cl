@@ -5,7 +5,7 @@
 
 #define NEW_SIMD_CODE
 
-#define BIT_LIMIT 30
+#define BIT_LIMIT 120
 
 #include "inc_vendor.cl"
 #include "inc_hash_constants.h"
@@ -139,21 +139,11 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     ctx.h[0] = (ctx.h[0] & 0x00FF00FF) + ((ctx.h[0] >>  8) & 0x00FF00FF);
     ctx.h[0] = (ctx.h[0] & 0x0000FFFF) + ((ctx.h[0] >> 16) & 0x0000FFFF);
 
-    if(ctx.h[0] > BIT_LIMIT)
-    {
-        continue;
-    }
-
     ctx.h[1] = (ctx.h[1] & 0x55555555) + ((ctx.h[1] >>  1) & 0x55555555);
     ctx.h[1] = (ctx.h[1] & 0x33333333) + ((ctx.h[1] >>  2) & 0x33333333);
     ctx.h[1] = (ctx.h[1] & 0x0F0F0F0F) + ((ctx.h[1] >>  4) & 0x0F0F0F0F);
     ctx.h[1] = (ctx.h[1] & 0x00FF00FF) + ((ctx.h[1] >>  8) & 0x00FF00FF);
     ctx.h[1] = (ctx.h[1] & 0x0000FFFF) + ((ctx.h[1] >> 16) & 0x0000FFFF);
-
-    if(ctx.h[1] + ctx.h[0] > BIT_LIMIT)
-    {
-        continue;
-    }
 
     ctx.h[2] = (ctx.h[2] & 0x55555555) + ((ctx.h[2] >>  1) & 0x55555555);
     ctx.h[2] = (ctx.h[2] & 0x33333333) + ((ctx.h[2] >>  2) & 0x33333333);
@@ -161,21 +151,11 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     ctx.h[2] = (ctx.h[2] & 0x00FF00FF) + ((ctx.h[2] >>  8) & 0x00FF00FF);
     ctx.h[2] = (ctx.h[2] & 0x0000FFFF) + ((ctx.h[2] >> 16) & 0x0000FFFF);
 
-    if(ctx.h[2] + ctx.h[1] + ctx.h[0] > BIT_LIMIT)
-    {
-        continue;
-    }
-
     ctx.h[3] = (ctx.h[3] & 0x55555555) + ((ctx.h[3] >>  1) & 0x55555555);
     ctx.h[3] = (ctx.h[3] & 0x33333333) + ((ctx.h[3] >>  2) & 0x33333333);
     ctx.h[3] = (ctx.h[3] & 0x0F0F0F0F) + ((ctx.h[3] >>  4) & 0x0F0F0F0F);
     ctx.h[3] = (ctx.h[3] & 0x00FF00FF) + ((ctx.h[3] >>  8) & 0x00FF00FF);
     ctx.h[3] = (ctx.h[3] & 0x0000FFFF) + ((ctx.h[3] >> 16) & 0x0000FFFF);
-
-    if(ctx.h[3] + ctx.h[2] + ctx.h[1] + ctx.h[0] > BIT_LIMIT)
-    {
-        continue;
-    }
 
     ctx.h[4] = (ctx.h[4] & 0x55555555) + ((ctx.h[4] >>  1) & 0x55555555);
     ctx.h[4] = (ctx.h[4] & 0x33333333) + ((ctx.h[4] >>  2) & 0x33333333);
@@ -183,7 +163,7 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     ctx.h[4] = (ctx.h[4] & 0x00FF00FF) + ((ctx.h[4] >>  8) & 0x00FF00FF);
     ctx.h[4] = (ctx.h[4] & 0x0000FFFF) + ((ctx.h[4] >> 16) & 0x0000FFFF);
 
-    if(ctx.h[4] + ctx.h[3] + ctx.h[2] + ctx.h[1] + ctx.h[0] <= BIT_LIMIT)
+    if(ctx.h[4] + ctx.h[3] + ctx.h[2] + ctx.h[1] + ctx.h[0] > BIT_LIMIT)
     {
         const u32 final_hash_pos = digests_offset + 0;
 
