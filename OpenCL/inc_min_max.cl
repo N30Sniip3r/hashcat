@@ -7,7 +7,7 @@
 
 #define SHA1_MIN_MASK 0xffff0000
 #define SHA1_MAX_MASK 0xffff0000
-#define SHA1_MIN_BIT  39
+#define SHA1_MIN_BIT  32
 #define SHA1_MAX_BIT  128
 #define SHA1_MIN_SUMH 90
 #define SHA1_MAX_SUMH 511
