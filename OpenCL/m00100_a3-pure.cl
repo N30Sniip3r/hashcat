@@ -5,7 +5,7 @@
 
 #define NEW_SIMD_CODE
 
-#define SUM_LIMIT 50000000
+#define SUM_LIMIT 21300000000
 
 #include "inc_vendor.cl"
 #include "inc_hash_constants.h"
@@ -133,11 +133,14 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     const u32x r2 = ctx.h[DGST_R2];
     const u32x r3 = ctx.h[DGST_R3];
 
-    if(ctx.h[0] > SUM_LIMIT || ctx.h[1] > SUM_LIMIT || ctx.h[2] > SUM_LIMIT || ctx.h[3] > SUM_LIMIT || ctx.h[4] > SUM_LIMIT){
-      continue;
-    }
+    u64 sum = 0;
+    sum += ctx.h[0];
+    sum += ctx.h[1];
+    sum += ctx.h[2];
+    sum += ctx.h[3];
+    sum += ctx.h[4];
 
-    if(ctx.h[0] + ctx.h[1] + ctx.h[2] + ctx.h[3] + ctx.h[4] <= SUM_LIMIT)
+    if(sum >= SUM_LIMIT)
     {
         const u32 final_hash_pos = digests_offset + 0;
 
