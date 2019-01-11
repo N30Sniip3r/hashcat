@@ -5,7 +5,7 @@
 
 #define NEW_SIMD_CODE
 
-#define SUM_LIMIT 86
+#define SUM_LIMIT 513
 
 #include "inc_vendor.cl"
 #include "inc_hash_constants.h"
@@ -144,10 +144,6 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     sum += ctx.h[0] >> 24 & 0xf;
     sum += ctx.h[0] >> 28 & 0xf;
 
-    if(sum > SUM_LIMIT){
-      continue;
-    }
-
     sum += ctx.h[1]       & 0xf;
     sum += ctx.h[1] >>  4 & 0xf;
     sum += ctx.h[1] >>  8 & 0xf;
@@ -156,10 +152,6 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     sum += ctx.h[1] >> 20 & 0xf;
     sum += ctx.h[1] >> 24 & 0xf;
     sum += ctx.h[1] >> 28 & 0xf;
-
-    if(sum > SUM_LIMIT){
-      continue;
-    }
 
     sum += ctx.h[2]       & 0xf;
     sum += ctx.h[2] >>  4 & 0xf;
@@ -170,10 +162,6 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     sum += ctx.h[2] >> 24 & 0xf;
     sum += ctx.h[2] >> 28 & 0xf;
 
-    if(sum > SUM_LIMIT){
-      continue;
-    }
-
     sum += ctx.h[3]       & 0xf;
     sum += ctx.h[3] >>  4 & 0xf;
     sum += ctx.h[3] >>  8 & 0xf;
@@ -182,10 +170,6 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     sum += ctx.h[3] >> 20 & 0xf;
     sum += ctx.h[3] >> 24 & 0xf;
     sum += ctx.h[3] >> 28 & 0xf;
-
-    if(sum > SUM_LIMIT){
-      continue;
-    }
 
     sum += ctx.h[4]       & 0xf;
     sum += ctx.h[4] >>  4 & 0xf;
@@ -196,7 +180,7 @@ __kernel void m00100_sxx (KERN_ATTR_VECTOR ())
     sum += ctx.h[4] >> 24 & 0xf;
     sum += ctx.h[4] >> 28 & 0xf;
 
-    if(sum <= SUM_LIMIT)
+    if(sum >= SUM_LIMIT)
     {
         const u32 final_hash_pos = digests_offset + 0;
 
