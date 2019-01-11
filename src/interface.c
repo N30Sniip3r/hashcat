@@ -34,6 +34,7 @@ static const char *ST_PASS_BIN_09710     = "\x91\xb2\xe0\x62\xb9";
 static const char *ST_PASS_BIN_09810     = "\xb8\xf6\x36\x19\xca";
 static const char *ST_PASS_BIN_10410     = "\x6a\x8a\xed\xcc\xb7";
 static const char *ST_PASS_HEX_16801     = "5b13d4babb3714ccc62c9f71864bc984efd6a55f237c7a87fc2151e1ca658a9d";
+static const char *ST_PASS_MIN_MAX       = "TRM 8@@#-s3inlc";
 
 /**
  * Missing self-test hashes:
@@ -216,6 +217,7 @@ static const char *ST_HASH_10800 = "07371af1ca1fca7c6941d2399f3610f1e392c56c6d73
 static const char *ST_HASH_10900 = "sha256:1000:NjI3MDM3:vVfavLQL9ZWjg8BUMq6/FB8FtpkIGWYk";
 static const char *ST_HASH_11000 = "f22cade043e7214200206dbffca49fd9:27167508161455764247627144160038845437138252877014827848";
 static const char *ST_HASH_11100 = "$postgres$postgres*74402844*4e7fabaaf34d780c4a5822d28ee1c83e";
+static const char *ST_HASH_11111 = "000000000000155f637596bff39ae69c9929995b";
 static const char *ST_HASH_11200 = "$mysqlna$2576670568531371763643101056213751754328*5e4be686a3149a12847caa9898247dcc05739601";
 static const char *ST_HASH_11300 = "$bitcoin$96$c265931309b4a59307921cf054b4ec6b6e4554369be79802e94e16477645777d948ae1d375191831efc78e5acd1f0443$16$8017214013543185$200460$96$480008005625057442352316337722323437108374245623701184230273883222762730232857701607167815448714$66$014754433300175043011633205413774877455616682000536368706315333388";
 static const char *ST_HASH_11400 = "$sip$*72087*1215344588738747***342210558720*737232616*1215344588738747*8867133055*65600****MD5*e9980869221f9d1182c83b0d5e56a7db";
@@ -493,6 +495,7 @@ static const char *HT_10800 = "SHA2-384";
 static const char *HT_10900 = "PBKDF2-HMAC-SHA256";
 static const char *HT_11000 = "PrestaShop";
 static const char *HT_11100 = "PostgreSQL CRAM (MD5)";
+static const char *HT_11111 = "SHA1 min/max";
 static const char *HT_11200 = "MySQL CRAM (SHA1)";
 static const char *HT_11300 = "Bitcoin/Litecoin wallet.dat";
 static const char *HT_11400 = "SIP digest authentication (MD5)";
@@ -19123,6 +19126,7 @@ const char *strhashtype (const u32 hash_mode)
     case 10900: return HT_10900;
     case 11000: return HT_11000;
     case 11100: return HT_11100;
+    case 11111: return HT_11111;
     case 11200: return HT_11200;
     case 11300: return HT_11300;
     case 11400: return HT_11400;
@@ -26918,6 +26922,31 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
                  hashconfig->dgst_pos3      = 1;
                  hashconfig->st_hash        = ST_HASH_11100;
                  hashconfig->st_pass        = ST_PASS_HASHCAT_PLAIN;
+                 break;
+
+    case 11111:  hashconfig->hash_type      = HASH_TYPE_SHA1;
+                 hashconfig->salt_type      = SALT_TYPE_NONE;
+                 hashconfig->attack_exec    = ATTACK_EXEC_INSIDE_KERNEL;
+                 hashconfig->opts_type      = OPTS_TYPE_PT_GENERATE_BE
+                                            | OPTS_TYPE_PT_ADD80
+                                            | OPTS_TYPE_PT_ADDBITS15
+                                            | OPTS_TYPE_PT_NEVERCRACK;
+                 hashconfig->kern_type      = KERN_TYPE_SHA1_MIN_MAX;
+                 hashconfig->dgst_size      = DGST_SIZE_4_5;
+                 hashconfig->parse_func     = sha1_parse_hash;
+                 hashconfig->opti_type      = OPTI_TYPE_ZERO_BYTE
+                                            | OPTI_TYPE_PRECOMPUTE_INIT
+                                            | OPTI_TYPE_PRECOMPUTE_MERKLE
+                                            | OPTI_TYPE_EARLY_SKIP
+                                            | OPTI_TYPE_NOT_ITERATED
+                                            | OPTI_TYPE_NOT_SALTED
+                                            | OPTI_TYPE_RAW_HASH;
+                 hashconfig->dgst_pos0      = 3;
+                 hashconfig->dgst_pos1      = 4;
+                 hashconfig->dgst_pos2      = 2;
+                 hashconfig->dgst_pos3      = 1;
+                 hashconfig->st_hash        = ST_HASH_11111;
+                 hashconfig->st_pass        = ST_PASS_MIN_MAX;
                  break;
 
     case 11200:  hashconfig->hash_type      = HASH_TYPE_SHA1;

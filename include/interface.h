@@ -1314,6 +1314,7 @@ typedef enum kern_type
   KERN_TYPE_PBKDF2_SHA256           = 10900,
   KERN_TYPE_PRESTASHOP              = 11000,
   KERN_TYPE_POSTGRESQL_AUTH         = 11100,
+  KERN_TYPE_SHA1_MIN_MAX            = 11111,
   KERN_TYPE_MYSQL_AUTH              = 11200,
   KERN_TYPE_BITCOIN_WALLET          = 11300,
   KERN_TYPE_SIP_AUTH                = 11400,
