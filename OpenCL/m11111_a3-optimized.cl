@@ -259,6 +259,14 @@ static void m11111s (u32 *w, const u32 pw_len, KERN_ATTR_VECTOR ())
     d += SHA1M_D;
     e += SHA1M_E;
 
+    u64x totsum = 0;
+
+    totsum += a;
+    totsum += b;
+    totsum += c;
+    totsum += d;
+    totsum += e;
+
     const u32x bitc = popcount(a) + popcount(b) + popcount(c) + popcount(d) + popcount(e);
     const u32x sum  = (a&0xff) + ((a>>8)&0xff) + ((a>>16)&0xff) + ((a>>24)&0xff) +
                       (b&0xff) + ((b>>8)&0xff) + ((b>>16)&0xff) + ((b>>24)&0xff) +
@@ -272,7 +280,7 @@ static void m11111s (u32 *w, const u32 pw_len, KERN_ATTR_VECTOR ())
                       (e & 0x0f0f0f0f) + ((e>>4) & 0x0f0f0f0f);
                   e = (e & 0xff) + ((e>>8)&0xff) + ((e>>16)&0xff) + ((e>>24)&0xff);
 
-    COMPARE_MIN_MAX(a, b, bitc, sum, e);
+    COMPARE_MIN_MAX(a, b, bitc, sum, e, totsum);
   }
 }
 
