@@ -1,7 +1,5 @@
 /**
- * Authors.....: Jens Steube <jens.steube@gmail.com>
- *               magnum <john.magnum@hushmail.com>
- *
+ * Author......: See docs/credits.txt
  * License.....: MIT
  */
 
@@ -13,8 +11,8 @@
 #define SHA1_MAX_SUMH 511
 #define SHA1_MIN_SUM  380
 #define SHA1_MAX_SUM  4737
-#define SHA1_MAX_SUMT 21400000000
-#define SHA1_MIN_SUMT 50000000
+#define SHA1_MAX_SUMT 21377785991
+#define SHA1_MIN_SUMT 86624577
 
 // vliw1
 
